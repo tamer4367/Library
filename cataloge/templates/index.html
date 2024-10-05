@@ -1,0 +1,26 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Home Page</h1>
+    <p>Total Books : {{num_books}}</p>
+    <p>Available Books : {{num_book_avail}}</p>
+    {% if request.user.is_authenticated %}
+        <p> You are loged in</p>
+        <p> Welcome : {{ request.user.username | title}}</p>
+    <form action="{% url 'logout' %}?next=/accounts/login" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Log Out" />
+    </form>
+    {% else %}
+        <p>You are loged out</p>
+        <a href="{% url 'login' %}?next={{request.path}}">Login</a>
+        <a href="{% url 'register' %}?next=/accounts/login">Register</a>
+    {% endif %}
+</body>
+</html>
